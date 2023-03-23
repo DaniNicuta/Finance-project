@@ -4,7 +4,6 @@ from domain.user.factory import UserFactory
 from domain.user.repo import UserRepo
 
 
-# TODO update tests
 class UserRepositoryTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
@@ -13,11 +12,11 @@ class UserRepositoryTestCase(unittest.TestCase):
 
     def test_it_adds_a_user(self):
         expected_username = "a-username"
-        new_user = UserFactory().make_new(expected_username)
+        new_user = UserFactory().make(expected_username)
 
         self.repo.add(new_user)
-
         actual_users = self.repo.get_all()
+
         self.assertEqual(1, len(actual_users))
         self.assertEqual(expected_username, actual_users[0].username)
 

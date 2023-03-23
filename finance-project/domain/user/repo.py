@@ -1,39 +1,33 @@
 import json
-import uuid
-from singleton import singleton
-from domain.asset.repo import AssetRepo
-from domain.user.factory import UserFactory
-from domain.user.persistance_interface import UserPersistenceInterface
+
 from domain.user.user import User
 
 
-@singleton
 class UserRepo:
-    def __init__(self, persistence: UserPersistenceInterface):
-        print("Init user repo")
-        self.__persistence = persistence
-        self.__users = None
+    def __init__(self, file_path: str):
+        self.file_path = file_path
+        try:
+            file = open(file_path)
+            contents = file.read()
+            file.close()
+            users_info = json.loads(contents)
+            self.__users = [User(x) for x in users_info]
+        except:
+            self.__users = []
 
     def add(self, new_user: User):
-        # TODO homework, refactor to not have duplicate code + add for get_by_id
-        if self.__users is None:
-            self.__users = self.__persistence.get_all()
-        self.__persistence.add(new_user)
         self.__users.append(new_user)
+        users_info = [x.username for x in self.__users]
+        users_json = json.dumps(users_info)
+        # TODO Homework refactor with
+        file = open(self.file_path, "w")
+        file.write(users_json)
+        file.close()
 
     def get_all(self) -> list[User]:
-        if self.__users is None:
-            self.__users = self.__persistence.get_all()
         return self.__users
 
-    def get_by_id(self, uid: str) -> User:
-        if self.__users is None:
-            self.__users = self.__persistence.get_all()
+    def get_by_username(self, username) -> User:
         for u in self.__users:
-            if u.id == uuid.UUID(hex=uid):
-                assets = AssetRepo().get_for_user(u)
-                return User(
-                    uuid=u.id,
-                    username=u.username,
-                    stocks=assets
-                )
+            if u.username == username:
+                return u
