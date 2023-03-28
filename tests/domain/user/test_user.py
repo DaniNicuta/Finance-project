@@ -20,10 +20,14 @@ class UserMyTestCase(unittest.TestCase):
 
         self.assertEqual([], actual_stocks)
 
-    @unittest.skip("TODO: Homework")
+    # @unittest.skip("TODO: Homework")
     def test_it_sets_the_stock_we_give(self):
-        # set a list of 3 strings
-        pass
+        username = "random-username"
+        stock_list = ["first", "second", "third"]
+
+        user = User(username, stock_list)
+        actual_stock = user.stocks
+        self.assertEqual(stock_list, actual_stock)
 
 
 if __name__ == "__main__":
