@@ -24,17 +24,34 @@ class UserFactoryTestCase(unittest.TestCase):
             "Username should have at least 6 characters", str(context.exception)
         )
 
-    @unittest.skip("TODO")
+    # @unittest.skip("TODO")
     def test_it_raises_exception_if_the_username_is_above_20_chars(self):
-        pass
+        username = "thisisalongusernameeee"
+        factory = UserFactory()
+        with self.assertRaises(InvalidUsername) as context:
+            factory.make(username)
 
-    @unittest.skip("TODO")
+        self.assertEqual(
+            "Username must be less than 20 characters", str(context.exception)
+        )
+
+    # @unittest.skip("TODO")
     def test_it_creates_a_user_if_the_username_has_valid_chars(self):
-        pass
+        username = "this-is-correct"
+        factory = UserFactory()
+        actual_user = factory.make(username)
 
-    @unittest.skip("TODO")
+        self.assertEqual(username, actual_user.username)
+
+    # @unittest.skip("TODO")
     def test_it_raises_exception_if_the_username_has_invalid_chars(self):
-        pass
+        username = "t#is+is(wrong)"
+        factory = UserFactory()
+        with self.assertRaises(InvalidUsername) as context:
+            factory.make(username)
+        self.assertEqual(
+            "Username must contain letters, numbers and - ", str(context.exception)
+        )
 
 
 if __name__ == "__main__":

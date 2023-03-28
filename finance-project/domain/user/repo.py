@@ -20,9 +20,11 @@ class UserRepo:
         users_info = [x.username for x in self.__users]
         users_json = json.dumps(users_info)
         # TODO Homework refactor with
-        file = open(self.file_path, "w")
-        file.write(users_json)
-        file.close()
+        # file = open(self.file_path, "w")
+        # file.write(users_json)
+        # file.close()
+        with open(self.file_path, "w") as file:
+            file.write(users_json)
 
     def get_all(self) -> list[User]:
         return self.__users

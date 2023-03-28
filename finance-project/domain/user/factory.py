@@ -10,4 +10,8 @@ class UserFactory:
     def make(self, username: str) -> User:
         if len(username) < 6:
             raise InvalidUsername("Username should have at least 6 characters")
+        elif len(username) > 20:
+            raise InvalidUsername("Username must be less than 20 characters")
+        elif not username.isalnum() and "-" not in username:
+            raise InvalidUsername("Username must contain letters, numbers and - ")
         return User(username)
