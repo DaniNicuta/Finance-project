@@ -6,6 +6,7 @@ class UserAdd(BaseModel):
 
 
 class UserInfo(BaseModel):
+    id: str = Field(description="ID of the user", default=None)
     username: str
     stocks: list[str]
 
