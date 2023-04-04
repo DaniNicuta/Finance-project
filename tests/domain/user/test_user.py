@@ -29,6 +29,8 @@ class UserMyTestCase(unittest.TestCase):
         actual_stock = user.stocks
         self.assertEqual(stock_list, actual_stock)
 
+    unittest.main()
+
 
 if __name__ == "__main__":
     unittest.main()
