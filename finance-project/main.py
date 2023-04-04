@@ -1,14 +1,21 @@
+import logging
 from fastapi import FastAPI, Request
 from api.users import users_router
 from api.assets import assets_router
 from domain.user.factory import InvalidUsername
 from starlette.responses import JSONResponse
 
+logging.basicConfig(
+    filename="finance.log",
+    level=logging.DEBUG,
+    format="%(asctime)s _ %(levelname)s _ %(name)s _ %(message)s",
+)
+
 app = FastAPI(
     debug=True,
     title="Fintech Portfolio API",
     description="A webserver with a REST API for keeping track of your different assets,"
-    " stocks & crypto, and see/compare their evolution",
+                " stocks & crypto, and see/compare their evolution",
     version="0.3.0",
 )
 app.include_router(users_router)
@@ -25,4 +32,10 @@ def return_invalid_username(_: Request, e: InvalidUsername):
 if __name__ == "__main__":
     import subprocess
 
-    subprocess.run(["uvicorn", "finance-project.main:app", "--reload"])
+    logging.info("Starting webserver ...")
+    try:
+        subprocess.run(["uvicorn", "finance-project.main:app", "--reload"])
+    except KeyboardInterrupt as e:
+        logging.warning("Keyboard interrupt.")
+    except Exception as e:
+        logging.warning("Webserver has stopped. Reason: " + str(e))
