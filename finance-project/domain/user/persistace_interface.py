@@ -12,4 +12,13 @@ class UserPersistenceInterface(abc.ABC):
     def get_all(self) -> list[User]:
         pass
 
+    @abc.abstractmethod
+    def delete(self, uuid: int):
+        pass
+
+    @abc.abstractmethod
+    def edit(self, user: User):
+        pass
+
+
 # TODO Homework, delete & edit
