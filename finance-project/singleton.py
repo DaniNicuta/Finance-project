@@ -1,6 +1,6 @@
 def singleton(cls):
     instances = {}
-    print('after declaration')
+    print("after declaration")
     print(instances)
     print(cls)
 
@@ -8,7 +8,7 @@ def singleton(cls):
         if cls not in instances:
             print(*args, **kwargs)
             instances[cls] = cls(*args, **kwargs)
-        print('before return')
+        print("before return")
         print(instances)
         return instances[cls]
 
