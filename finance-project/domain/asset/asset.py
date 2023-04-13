@@ -29,13 +29,24 @@ class Asset:
 
     @property
     def current_price(self) -> float:
-        # TODO extract the call self.__yfin.fast_info to not have duplicate codes
         price = self.__info["lastPrice"]
         return round(price, 2)
 
     @property
     def currency(self) -> str:
         return self.__info["currency"]
+
+    @property
+    def today_low_price(self) -> float:
+        return self.__info["dayLow"]
+
+    @property
+    def today_high_price(self) -> float:
+        return self.__info["dayHigh"]
+
+    @property
+    def open_price(self) -> float:
+        return self.__info["open"]
 
     @property
     def closed_price(self) -> float:
@@ -45,5 +56,9 @@ class Asset:
     def fifty_day_price(self) -> float:
         return self.__info["fiftyDayAverage"]
 
-    # TODO a property, in percentage how much it went up or down
-    # lastPrice(current_price) & closed_price
+    @property
+    def price_evolution(self) -> str:
+        price_evolution = (
+            (self.closed_price - self.current_price) / self.closed_price
+        ) * 100
+        return f"{round(price_evolution, 2)}%"

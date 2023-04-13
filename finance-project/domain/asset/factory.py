@@ -19,7 +19,6 @@ class AssetFactory:
             sector=sector,
         )
 
-    # TODO make it class or static method, why? we dont use self
     @staticmethod
     def __extract_name(profile: dict) -> str:
         summary = profile["longBusinessSummary"]
