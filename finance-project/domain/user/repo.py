@@ -15,8 +15,11 @@ class UserRepo:
         self.__users = None
 
     def add(self, new_user: User):
+        # self.__persistence.add(new_user)
+        # self.__users = self.__persistence.get_all()
         self.__persistence.add(new_user)
-        self.__users = self.__persistence.get_all()
+        self.__users = None
+        self.check_users_not_none()
 
     def get_all(self) -> list[User]:
         self.check_users_not_none()
@@ -34,15 +37,5 @@ class UserRepo:
             self.__users = self.__persistence.get_all()
 
     def delete_by_id(self, id_: str):
-        self.__users = [u for u in self.__users if str(u.id) != id_]
-
-        # with open(self.file_path) as f:
-        #     content = f.read()
-        # user_info = json.loads(content)
-        #
-        # for every_user in user_info:
-        #     if every_user[0] == id_:
-        #         user_info.remove(every_user)
-        #
-        # with open(self.file_path, "w") as f:
-        #     json.dump(user_info, f)
+        self.check_users_not_none()
+        self.__persistence.delete_by_id(id_)
