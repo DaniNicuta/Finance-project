@@ -2,6 +2,11 @@ from pydantic import BaseModel, Field
 from uuid import UUID
 
 
+class OrmModel(BaseModel):
+    class Config:
+        orm_mode = True
+
+
 # TODO add the field with description, approx half
 class UserAdd(BaseModel):
     username: str = Field(description="Alphanumeric username between 6 and 20 chars")
@@ -15,9 +20,7 @@ class AssetInfoBase(BaseModel):
     ticker: str
     name: str
     country: str
-
-    class Config:
-        orm_mode = True
+    sector: str
 
 
 class AssetInfoUser(AssetInfoBase):
@@ -35,10 +38,7 @@ class AssetInfoPrice(AssetInfoBase):
     price_evolution: str
 
 
-class UserInfo(BaseModel):
+class UserInfo(OrmModel):
     id: UUID
     username: str
     stocks: list[AssetInfoBase]
-
-    class Config:
-        orm_mode = True
