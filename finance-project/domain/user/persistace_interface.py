@@ -13,12 +13,9 @@ class UserPersistenceInterface(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def delete(self, uuid: int):
-        pass
-
-    @abc.abstractmethod
     def edit(self, user: User):
         pass
 
-
-# TODO Homework, delete & edit
+    @abc.abstractmethod
+    def delete_by_id(self, id_: str):
+        pass
