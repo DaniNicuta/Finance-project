@@ -41,7 +41,7 @@ class UserPersistenceSqlite(UserPersistenceInterface):
                 )
             conn.commit()
 
-    def delete(self, uuid: int):
+    def delete_by_id(self, uuid: int):
         with sqlite3.connect("main_users.db") as conn:
             cursor = conn.cursor()
             cursor.execute(f"DELETE FROM users WHERE id = {uuid}")
