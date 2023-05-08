@@ -42,8 +42,8 @@ def get_all_users(repo=Depends(get_user_repo)):
 
 
 @users_router.get("/{user_id}", response_model=UserInfo)
-def get_user(user_id: str, repo=Depends(get_user_repo)):
-    return repo.get_by_id(user_id)
+def get_user(username: str, repo=Depends(get_user_repo)):
+    return repo.get_by_id(username)
 
 
 @users_router.post("", response_model=UserInfo)
@@ -58,7 +58,10 @@ def delete_a_user(user_id: str, repo=Depends(get_user_repo)):
     repo.delete_by_id(user_id)
 
 
-# TODO fix api, return asset info
+@users_router.put("/{user_id}", response_model=UserInfo)
+def edit_user(user_id: str, username: str, repo=Depends(get_user_repo)):
+    repo.edit(user_id, username)
+    return repo.get_by_id(user_id)
 
 
 @users_router.post("/{user_id}/assets", response_model=AssetInfoUser)

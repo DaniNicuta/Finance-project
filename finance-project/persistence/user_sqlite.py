@@ -1,3 +1,4 @@
+import logging
 import sqlite3
 from domain.user.persistace_interface import UserPersistenceInterface
 from domain.user.user import User
@@ -8,7 +9,6 @@ class UserPersistenceSqlite(UserPersistenceInterface):
     def get_all(self) -> list[User]:
         with sqlite3.connect("main_users.db") as conn:
             cursor = conn.cursor()
-            # TODO homework, try except return empty list if no db(model mai jos)
             try:
                 cursor.execute("SELECT * FROM users")
             except sqlite3.OperationalError as e:
@@ -41,16 +41,24 @@ class UserPersistenceSqlite(UserPersistenceInterface):
                 )
             conn.commit()
 
-    def delete_by_id(self, uuid: int):
+    def delete_by_id(self, _id: User):
         with sqlite3.connect("main_users.db") as conn:
             cursor = conn.cursor()
-            cursor.execute(f"DELETE FROM users WHERE id = {uuid}")
+            try:
+                cursor.execute(f"DELETE FROM users WHERE id = {_id}")
+            except sqlite3.OperationalError as e:
+                logging.error(f"Error: " + str(e))
+                raise e
             conn.commit()
 
-    def edit(self, user: User):
+    def edit(self, _id: User, username: str):
         with sqlite3.connect("main_users.db") as conn:
             cursor = conn.cursor()
-            cursor.execute(
-                f"UPDATE users SET username = '{user.username}' where id = '{user.id}'"
-            )
+            try:
+                cursor.execute(
+                    f"UPDATE users SET username = '{_id.username}' WHERE id = '{_id.id}'"
+                )
+            except sqlite3.OperationalError as e:
+                logging.error(f"Error: " + str(e))
+                raise e
             conn.commit()
