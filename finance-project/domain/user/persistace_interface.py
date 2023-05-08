@@ -13,7 +13,7 @@ class UserPersistenceInterface(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def edit(self, user: User):
+    def edit(self, _id: str, username: str):
         pass
 
     @abc.abstractmethod
