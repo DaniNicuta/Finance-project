@@ -34,27 +34,33 @@ class Asset:
 
     @property
     def currency(self) -> str:
-        return self.__info["currency"]
+        currency = self.__info["currency"]
+        return currency
 
     @property
     def today_low_price(self) -> float:
-        return self.__info["dayLow"]
+        today_low_price = self.__info["dayLow"]
+        return round(today_low_price, 2)
 
     @property
     def today_high_price(self) -> float:
-        return self.__info["dayHigh"]
+        today_high_price = self.__info["dayHigh"]
+        return round(today_high_price, 2)
 
     @property
     def open_price(self) -> float:
-        return self.__info["open"]
+        open_price = self.__info["open"]
+        return round(open_price, 2)
 
     @property
     def closed_price(self) -> float:
-        return self.__info["previousClose"]
+        closed_price = self.__info["previousClose"]
+        return round(closed_price, 2)
 
     @property
     def fifty_day_price(self) -> float:
-        return self.__info["fiftyDayAverage"]
+        fifty_day_price = self.__info["fiftyDayAverage"]
+        return round(fifty_day_price, 2)
 
     @property
     def price_evolution(self) -> str:
