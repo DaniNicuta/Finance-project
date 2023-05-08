@@ -22,6 +22,5 @@ def get_history(
     history = t.history(interval="1d", start=start_date, end=end_date)
     data = history["Open"]
     pyplot.plot(data)
-    # pyplot.show()
     pyplot.savefig(f"{ticker}-{uuid.uuid4()}.png")
     pyplot.clf()
