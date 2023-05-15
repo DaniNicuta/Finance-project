@@ -36,7 +36,6 @@ def get_user_by_id(user_id: str, repo=Depends(get_user_repo)):
 # def get_user(username: str):
 # return repo.get_by_username(username)
 
-
 @users_router.delete("/{user_id}")
 def delete_user(user_id: str, repo=Depends(get_user_repo)):
     repo.delete_by_id(user_id)
@@ -56,12 +55,11 @@ def edit_by_id(user_id: str, username: str, repo=Depends(get_user_repo)):
 
 
 @users_router.post("/{user_id}/assets", response_model=AssetInfoUser)
-def add_asset_to_user(
-    user_id: str,
-    asset: AssetAdd,
-    repo=Depends(get_user_repo),
-    asset_repo=Depends(get_asset_repo),
-):
+def add_asset_to_user(user_id: str,
+                      asset: AssetAdd,
+                      repo=Depends(get_user_repo),
+                      asset_repo=Depends(get_asset_repo)
+                      ):
     new_asset = AssetFactory().make_new(asset.ticker)
     user = repo.get_by_id(user_id)
     asset_repo.add(user, new_asset)

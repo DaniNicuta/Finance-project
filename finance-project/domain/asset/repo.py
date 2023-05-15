@@ -1,5 +1,6 @@
 from domain.asset.asset import Asset
-from domain.asset.asset_persistence_interface import AssetPersistenceInterface
+
+from domain.asset.asset_persisetence_interface import AssetPersistenceInterface
 from domain.user.user import User
 
 
