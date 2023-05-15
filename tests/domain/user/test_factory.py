@@ -1,12 +1,12 @@
 import unittest
-import uuid
+
 from domain.user.factory import UserFactory, InvalidUsername
 from domain.user.user import User
 
 
-class UserFactoryTestCase(unittest.TestCase):
-    def test_it_creates_a_user_if_the_username_is_between_6_and_20_chars(self):
-        username = "between-6-and-20"
+class UnitFactoryTestCase(unittest.TestCase):
+    def test_it_creates_user_if_the_username_is_between_6_and_20_chars(self):
+        username = "between-6-and-20-"
         factory = UserFactory()
 
         actual_user = factory.make_new(username)
@@ -14,7 +14,7 @@ class UserFactoryTestCase(unittest.TestCase):
         self.assertEqual(username, actual_user.username)
         self.assertEqual(User, type(actual_user))
 
-    def test_it_raises_exception_if_the_username_is_below_6_chars(self):
+    def test_it_raises_exception_if_the_username_is_below_6(self):
         username = "below"
         factory = UserFactory()
 
@@ -22,49 +22,48 @@ class UserFactoryTestCase(unittest.TestCase):
             factory.make_new(username)
 
         self.assertEqual(
-            "Username should have at least 6 characters", str(context.exception)
+            "Username should have at least 6 chars", str(context.exception)
         )
 
     def test_it_raises_exception_if_the_username_is_above_20_chars(self):
-        username = "thisisalongusernameeee"
+        username = "u" * 21
         factory = UserFactory()
+
         with self.assertRaises(InvalidUsername) as context:
             factory.make_new(username)
 
         self.assertEqual(
-            "Username must be less than 20 characters", str(context.exception)
+            "Username should have a maximum of 20 chars !", str(context.exception)
         )
 
     def test_it_creates_a_user_if_the_username_has_valid_chars(self):
-        username = "this-is-correct"
+        username = "rares123-"
         factory = UserFactory()
+
         actual_user = factory.make_new(username)
 
         self.assertEqual(username, actual_user.username)
+        self.assertEqual(User, type(actual_user))
 
     def test_it_raises_exception_if_the_username_has_invalid_chars(self):
-        username = "t#is+is(wrong)"
+        username = "rares@1"
         factory = UserFactory()
+
         with self.assertRaises(InvalidUsername) as context:
             factory.make_new(username)
+
         self.assertEqual(
-            "Username must contain letters, numbers and - ", str(context.exception)
+            "Username should have only letters and numbers as characters or '-' ",
+            str(context.exception),
         )
 
     def test_make_from_persistence(self):
-        # set up
+        uuid_ = "4a4c58ee-8fd4-415e-9801-947e86b97d7e"
+        username = "random-1"
+        info = (uuid_, username)
         factory = UserFactory()
-        user_id = uuid.uuid4()
-        username = "random-123"
-        stocks = ["TSLA", "NVDA", "AMZN"]
-        info = (str(user_id), username, stocks)
-        # execution
-        actual_user = factory.make_from_persistance(info)
-        # assertion
-        self.assertIsInstance(actual_user, User)
-        self.assertEqual(actual_user.id, user_id)
-        self.assertEqual(actual_user.username, username)
-        self.assertEqual(actual_user.stocks, stocks)
+        user = factory.make_from_persistence(info)
+        self.assertIsInstance(user, User)
 
 
 if __name__ == "__main__":

@@ -13,6 +13,10 @@ class UserPersistenceInterface(abc.ABC):
         pass
 
     @abc.abstractmethod
+    def get_by_id(self, uid: str) -> User:
+        pass
+
+    @abc.abstractmethod
     def edit(self, _id: str, username: str):
         pass
 

@@ -3,9 +3,7 @@ import yahooquery
 
 
 class AssetFactory:
-    # TODO unit test for it
     def make_new(self, ticker: str) -> Asset:
-        # TODO error handling & tests
         t = yahooquery.Ticker(ticker)
         profile = t.summary_profile[ticker]
         name = self.__extract_name(profile)
@@ -19,11 +17,21 @@ class AssetFactory:
             sector=sector,
         )
 
-    @staticmethod
-    def __extract_name(profile: dict) -> str:
+    @classmethod
+    def __extract_name(cls, profile: dict) -> str:
         summary = profile["longBusinessSummary"]
         words = summary.split(" ")
         first_2_words = words[0:2]
         name = " ".join(first_2_words)
         name = name.replace(",", "")
         return name
+
+    @classmethod
+    def make_from_persistence(cls, info: tuple) -> Asset:
+        return Asset(
+            ticker=info[0],
+            nr=info[1],
+            name=info[2],
+            country=info[3],
+            sector=info[4],
+        )

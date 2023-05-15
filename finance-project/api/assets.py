@@ -11,6 +11,7 @@ assets_router = APIRouter(prefix="/assets")
 @assets_router.get("/{ticker}", response_model=AssetInfoPrice)
 def get_asset(ticker: str):
     asset = AssetFactory().make_new(ticker)
+    print(asset.__dict__)
     return asset
 
 
