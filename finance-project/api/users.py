@@ -1,3 +1,4 @@
+import logging
 from fastapi import APIRouter, Depends
 
 from config.config_for_asset import check_asset_persistence_type
@@ -6,6 +7,7 @@ from domain.asset.factory import AssetFactory
 from domain.asset.repo import AssetRepo
 from domain.user.factory import UserFactory
 from domain.user.repo import UserRepo
+from domain.exceptions import (DuplicateUser, DuplicateAsset, NonExistentUserId, InvalidTicker, )
 from api.models import UserAdd, UserInfo, AssetInfoUser, AssetAdd
 
 users_router = APIRouter(prefix="/users")
@@ -38,7 +40,9 @@ def get_user_by_id(user_id: str, repo=Depends(get_user_repo)):
 
 @users_router.delete("/{user_id}")
 def delete_user(user_id: str, repo=Depends(get_user_repo)):
+    logging.info(f"Deleting use with id {user_id}")
     repo.delete_by_id(user_id)
+    return {"status": "ok"}
 
 
 @users_router.post("", response_model=UserInfo)

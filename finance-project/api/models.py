@@ -23,14 +23,16 @@ class AssetInfoBase(BaseModel):
     name: str = Field(description="The company's name.")
     country: str = Field(description="The company's headquarters country")
     sector: str = Field(description="The company's main field of operations. ")
+    current_price: int = Field(description="Price of the asset when added")
+    currency: str = Field(description="Currency for asset")
 
 
 class AssetInfoUser(AssetInfoBase):
-    units: float
+    units: float = Field(description="Number of stocks or security a user have")
 
 
 class AssetInfoPrice(AssetInfoBase):
-    current_price: float = Field(description="The stock's current price")
+    current_price: float = Field(description="The stock's current price, updated in real time")
     currency: str = Field(description="The symbol for currency.")
     today_low_price: float = Field(
         description="The stock's lowest registered price today."
